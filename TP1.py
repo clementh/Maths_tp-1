@@ -73,12 +73,12 @@ class Graph():
         no returns
         """
         
-        print("*************************")
-        print("* Affichage d'un graphe *")
-        print("*************************")
+        print("∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗")
+        print("∗ Affichage d'un graphe ∗")
+        print("∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗")
         
         print("Nodes:")
-        print("------\n")
+        print("−−−−−−\n")
         t = 0
         for node in sorted(self.nodes): #on realise un tri de l'ensemble pour l'afficher dans un ordre croissant
             t+=1                        #iterateur pour savoir quand nous aurons traites tout les element de l'ensemble afin de ne pas afficher de virgule inutile
@@ -89,9 +89,9 @@ class Graph():
         print ()
                 
         print("Edges:")
-        print("------\n")
+        print("−−−−−−\n")
         for edge in self.edges:
-            print(str(edge[0])+str('--->')+str(edge[1])) #on utilise str() pour ne pas avoir les '' encadrant le caractere et le + afin de tout mettre ensemble comme une seule chaine de caractere
+            print(str(edge[0])+str(' −−−> ')+str(edge[1])) #on utilise str() pour ne pas avoir les '' encadrant le caractere et le + afin de tout mettre ensemble comme une seule chaine de caractere
         
         print('=========================')
         
