@@ -91,7 +91,6 @@ class Graph():
         
     def breadth_first_search (self,departure) : # fonction pour parcourir le graphe en largeur
         """docstring"""
-        print (" PARCOURS EN LARGEUR")
         parents={}
         colors= {}              # dico qui contient le sommet en cle et ca couleur
         fifo=[]                     # list, j'ai pas tres bien compris comment elle marche
@@ -110,9 +109,7 @@ class Graph():
                         fifo.append(num_edge[1])
                         colors[num_edge[1]] = "grey"
             fifo.remove(summit)
-            colors[summit]="black"
-        print ("les couleurs sont: ", colors)
-        print ("les parents sont: ", parents)    
+            colors[summit]="black"  
     
         
         
