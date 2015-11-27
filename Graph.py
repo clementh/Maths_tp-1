@@ -11,7 +11,14 @@
         - I.e make a graph path
         - Read implement the algorithm associated components
 """
-
+#################################################################
+# Institut Villebon, UE 5.i4                                    #
+# UE 5i4 : TP_1  Graph Theory                                   #
+# Version 1                                                     #
+# Author : E.Albrand & C.Herat                                  #
+# Creation :                                                    #
+# Last modification :                                           #
+#################################################################
 
 class Graph():
     """ docstring """
@@ -22,7 +29,6 @@ class Graph():
         self.nodes = set()
         self.edges = []
         self.adjacency_list = {}
-        self.parents = {}
                 
         
     def add_a_node(self, node_name):
@@ -43,8 +49,8 @@ class Graph():
         if ((node_name in self.nodes) == False):
             self.nodes.add(node_name)
             self.adjacency_list[node_name]= []
-            self.parents[node_name]=[]
             
+        
     def add_an_edge(self, from_node, to_node):
         """
         Method to create an edges between 2 nodes (from_node and to_node) on the graph
@@ -63,8 +69,11 @@ class Graph():
         """
         
         if((((from_node and to_node) in self.nodes) == True) and (((from_node+to_node) in self.edges)==False)): #on test tout d'abord si les nodes de depart et d'arrives sont bien dans l'ensemble et si l'arete n'est pas deja existante
-            self.edges.append([from_node,to_node])
+            self.edges.append[(from_node,to_node)]
             self.adjacency_list[from_node].append(to_node)
+        else:
+            raise NameError("not possible. Node don't exist")
+            
             
     
         
@@ -90,7 +99,7 @@ class Graph():
         return heading+nodes+edges+footer
         
     def breadth_first_search (self,departure) : # fonction pour parcourir le graphe en largeur
-        """docstring"""
+        """h hjbnnjbuyvyboiùnpojivuyvknnklmuobvycvkyvmiombuibyuvgkbbjbliubiknmnnmio"""
         parents={}
         colors= {}              # dico qui contient le sommet en cle et ca couleur
         fifo=[]                     # list, j'ai pas tres bien compris comment elle marche
@@ -101,17 +110,17 @@ class Graph():
         fifo.append(departure)
         colors[departure]="grey"
         while (fifo != []):
-            summit=fifo[0]
+            summit = fifo[0]
             for num_edge in self.edges:  
                 if (summit in num_edge):
-                    if((summit==num_edge[0]) & (colors[num_edge[1]]=="white")):
-                        parents[num_edge[1]]=summit
+                    if((summit == num_edge[0]) & (colors[num_edge[1]]=="white")):
+                        parents[num_edge[1]] = summit
                         fifo.append(num_edge[1])
                         colors[num_edge[1]] = "grey"
             fifo.remove(summit)
-            colors[summit]="black"  
-    
-        
+            colors[summit] = "black"  
+            
+        return parents
         
     def depth_first_search(self,departure):
         parents = {}
