@@ -24,7 +24,7 @@ class Graph():
     """ docstring """
     
     def __init__(self):
-        """docstring"""
+        """__init__ initialize the set self.nodes, the list self.edges and the dictionnary self.adjacency_list. Which respectively contains the nodes names, the edges (from node ,to node) and the adjacency list: [father]=[ childrens ] """
         
         self.nodes = set()
         self.edges = []
@@ -69,7 +69,7 @@ class Graph():
         """
         
         if((((from_node and to_node) in self.nodes) == True) and (((from_node+to_node) in self.edges)==False)): #on test tout d'abord si les nodes de depart et d'arrives sont bien dans l'ensemble et si l'arete n'est pas deja existante
-            self.edges.append[(from_node,to_node)]
+            self.edges.append((from_node,to_node))
             self.adjacency_list[from_node].append(to_node)
         else:
             raise NameError("not possible. Node don't exist")
@@ -99,30 +99,57 @@ class Graph():
         return heading+nodes+edges+footer
         
     def breadth_first_search (self,departure) : # fonction pour parcourir le graphe en largeur
-        """h hjbnnjbuyvyboiùnpojivuyvknnklmuobvycvkyvmiombuibyuvgkbbjbliubiknmnnmio"""
-        parents={}
-        colors= {}              # dico qui contient le sommet en cle et ca couleur
-        fifo=[]                     # list, j'ai pas tres bien compris comment elle marche
+        """This function do the path width
+            Args:      None 
+            
+            storage: parents {}: dictionnary wich contain the children for the key and the parents for value.
+                     colors{}: dictionnary wich contain a color for value, for every node (the key)
+                     fifo[]: list for scroll the node we browse
+                     
+            Returns: parents and colors.
+            
+            For the first step we initialize  all node colors to white.
+            Next we begin with  the departure node, parents dictionnary  learn 'none',
+            colors become grey and fifo append departure
+            Father become the first node of fifo list.
+            After we browse the list of edges in our graph.
+            If there are an edges where father is the first in the list (the father),
+            so the second node is the children.
+            The  programms do this action:
+                Colors[children]: become grey
+                parents[children] become father
+                and fifo append children
+             When all the edges was seen, father is remove from fifo and his color become black
+             the loop restar with a new node for father: the first one in fifo list.
+             
+             The colors allow to be sure the loop don't pass twice by the same node.
+             while fifo is while fifo is not empty we stay in the loop
+             """
+        parents = dict ()
+        colors = dict ()               # dico qui contient le sommet en cle et ca couleur
+        fifo = []                     # list, j'ai pas tres bien compris comment elle marche
         
         for i in self.nodes:
             colors[i]="white"
-        parents[departure]='none'    
+            
+        parents[departure] = None    
         fifo.append(departure)
         colors[departure]="grey"
         while (fifo != []):
-            summit = fifo[0]
+            father = fifo[0]
             for num_edge in self.edges:  
-                if (summit in num_edge):
-                    if((summit == num_edge[0]) & (colors[num_edge[1]]=="white")):
-                        parents[num_edge[1]] = summit
+                if (father in num_edge):
+                    if((father == num_edge[0]) & (colors[num_edge[1]] == "white")):
+                        parents[num_edge[1]] = father
                         fifo.append(num_edge[1])
                         colors[num_edge[1]] = "grey"
-            fifo.remove(summit)
-            colors[summit] = "black"  
+            fifo.remove(father)
+            colors[father] = "black"
             
         return parents
         
     def depth_first_search(self,departure):
+        """fdslkfkdsfjkldsfjkldsjfkldsjfkldsffszfds fdsfkldsj fdfs fdkfkdfkh dfhskjlhfkjdsfhkjdshfkj fsdhfkjhdskjfhdskj fdsjfkhdskjfhdsk"""
         parents = {}
         colors = {}
 
@@ -130,7 +157,7 @@ class Graph():
             colors[i] = 'white'
 
         colors[departure] = 'grey'
-        parents[departure]='none'
+        parents[departure]= None
         lifo = [departure]
         father = departure
 
@@ -152,8 +179,58 @@ class Graph():
                 father = lifo[-1]
 
 
-        return parents,colors
-
+        return parents
+        
+    def is_non_oriented(self):
+        """ This function find if the graph is oriented or not.
+        Args:   None
+        
+        Retunr: True of False
+        
+        We browse all the node (num_node) and the node in their adjacency list (next).
+        We search if num_node is in the adjacency list of next. 
+        If it's true we have A---> B and B--->A : it's a non oriented edges.
+        the graph is oriented if there are only one edges oriented: the function return False
+        But if there are no oriented edges, the function return :True. It's a non oriented graph
+         """
+        for num_node in self.nodes:
+            for next in self.adjacency_list[num_node]:
+                if ((num_node in self.adjacency_list[next]) == False):
+                    print "le graph est oriente"
+                    return False
+        print "le graph est non-oriente"             
+        return True
+        
+    #def connected_components(self):
+    def is_connected (self):
+        """This function find if the graph is connected.
+            WARNING: Work only with non-oriented graph.
+        Args: orientation
+        
+        Return :True or False.
+            We browse all the node of the graph.
+            'Connect' is a variable which count the connnection for a node.
+            If a node don't have any connection, then  the graph is not connected.
+            But if all the node have a connexion, even only one, the graph is connected:Return False
+            And the function return True
+            
+            TypeError if the graph is non-oriented. """ 
+        
+        if (Graph().is_non_oriented() == True):
+            for node in self.nodes:
+                connect=0
+                for num_edge in self.edges:
+                    if ((node in num_edge[0]) & (node in num_edge[1])):
+                        print node, num_edge
+                        connect += 1
+                if connect==0:
+                    print "le graph est non connexe"
+                    return False
+            print  "le graph est connexe"
+            return True
+        else:
+            raise TypeError, "Your Graph is oriented"   
+                
         
         
 if __name__== '__main__': #permet de tester seulement si on l'appel en tant que programme
@@ -172,7 +249,6 @@ if __name__== '__main__': #permet de tester seulement si on l'appel en tant que 
     G.add_an_edge('D','C')
     G.add_an_edge('E','F')
     G.add_an_edge('F','C')
-
 
 
     departure='A'
